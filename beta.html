@@ -1,0 +1,58 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Beta Distribution</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="http://www.numericjs.com/lib/numeric-1.2.6.min.js"></script>
+        <script type="text/javascript" src="gamma.js"></script>
+        <script src="jquery-2.1.1.js"></script>
+        <script src="jquery-ui-1.11.1.custom/jquery-ui.js"></script>
+
+        <link rel="stylesheet" href="jquery-ui-1.11.1.custom/jquery-ui.css">
+        <style type="text/css">
+            body {
+                vertical-align: center;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 600px;
+            }
+            .axis {
+                shape-rendering: crispEdges;
+            }
+
+            .axis line .axis path {
+                stroke-width: 1px;
+                fill: none;
+            }
+
+            #alpha-slider {
+                margin-left: 150px;
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+            #beta-slider {  
+                margin-left: 150px;
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+
+            .ui-slider-horizontal {
+                height: 8px;
+                width: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript" src="beta.js"> </script>
+        <form>
+            Alpha: <div id="alpha-slider"></div><div id="alpha-value">0.5</div>
+            </p>
+            Beta: <div id="beta-slider"></div><div id="beta-value">0.5</div>
+            </p> 
+        </form>
+        <script type="text/javascript">
+            update_graph();
+        </script>
+    </body>
+</html>
