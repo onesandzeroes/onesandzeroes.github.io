@@ -62,7 +62,7 @@ function update_graph() {
         .attr("transform", "translate(" + (2 * padding) + ", 0)")
         .call(y_axis);
     svg.append("text")
-        .attr("x", padding - 15)
+        .attr("x", padding - 20)
         .attr("y", height / 2)
         .style("text-anchor", "middle")
         .text("f(y)");
