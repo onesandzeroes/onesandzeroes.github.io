@@ -52,10 +52,20 @@ function update_graph() {
         .attr("class", "x-axis")
         .attr("transform", "translate(0, " + (height - 2 * padding) + ")")
         .call(x_axis);
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height - padding + 10)
+        .style("text-anchor", "middle")
+        .text("y");
     svg.append("g")
         .attr("class", "y-axis")
         .attr("transform", "translate(" + (2 * padding) + ", 0)")
         .call(y_axis);
+    svg.append("text")
+        .attr("x", padding - 10)
+        .attr("y", height / 2)
+        .style("text-anchor", "middle")
+        .text("f(y)");
 }
 
 $(function() {
