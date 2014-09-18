@@ -97,7 +97,7 @@ $(function() {
 
 var width = 500;
 var height = 500;
-var padding = 30;
+var padding = 40;
 var y_vals = numeric.linspace(0.01, 0.99, 100);
 
 var svg = d3.select("body")
