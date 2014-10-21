@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="jquery-ui-1.11.1.custom/jquery-ui.css">
         <style type="text/css">
             body {
+                font-family: sans-serif;
                 vertical-align: center;
                 text-align: center;
                 margin-left: auto;
@@ -75,6 +76,10 @@
             eq_div = document.getElementById("beta-equation")
             katex.render("f(y) = \\left[ \\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha) \\Gamma(\\beta)} \\right] y^{\\alpha - 1} (1 - y)^{\\beta - 1}", eq_div);
         </script>
+        <p>
+            Alpha and beta sliders can be adjusted using either the mouse or arrow keys (click
+            the slider to select it first if you want to keys use the arrow keys).
+        </p>
         <div id="footer">
             My knowledge of HTML/Javascript is not great, but if there are any changes
             that you think would make this page more useful, please create an issue
