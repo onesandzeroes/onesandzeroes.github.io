@@ -10,8 +10,8 @@ function zip(arrays) {
     });
 }
 
-function update_graph() {
-    var alpha = parseFloat(document.getElementById("alpha-value").innerHTML);
+function create_graph() {
+        var alpha = parseFloat(document.getElementById("alpha-value").innerHTML);
     var beta = parseFloat(document.getElementById("beta-value").innerHTML);
 
     var densities = [];
@@ -72,6 +72,47 @@ function update_graph() {
         .attr("y", height / 2)
         .style("text-anchor", "middle")
         .text("f(y)");
+}
+
+function update_graph() {
+    var alpha = parseFloat(document.getElementById("alpha-value").innerHTML);
+    var beta = parseFloat(document.getElementById("beta-value").innerHTML);
+
+    var densities = [];
+    for (var i = 0; i < y_vals.length; i++) {
+      var new_d = beta_density(y_vals[i], alpha, beta);
+      densities.push(new_d);
+    }
+    var dataset = zip([y_vals, densities]);
+
+    var x_scale = d3.scale.linear()
+        .domain([0, 1])
+        .range([2 * padding, width - (2 *padding)]);
+    var y_scale = d3.scale.linear()
+        .domain([0, d3.max(dataset, function(d) {return d[1];})])
+        .range([height - (2 * padding), 2 * padding]);
+    var y_axis = d3.svg.axis()
+        .ticks(10)
+        .orient("left")
+        .scale(y_scale);
+
+    var line_creator = d3.svg.line()
+        .x(function(d) { return x_scale(d[0]); })
+        .y(function(d) { return y_scale(d[1]); });
+
+    svg.select("path")
+        .attr("class", "data-line")
+        .attr("stroke", "red")
+        .attr("fill", "white")
+        .transition()
+        .duration(800)
+        .ease("bounce   ")
+        .attr("d", line_creator(dataset));
+
+    svg.select("#y-axis")
+        .transition()
+        .duration(800)
+        .call(y_axis);
 }
 
 $(function() {
