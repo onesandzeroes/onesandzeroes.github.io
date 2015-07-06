@@ -99,7 +99,7 @@ Physics(function( world ){
         var circle_x_start = x_scale(thetas[circle_theta_start]);
         var circle_y_start = y_scale(log_probs[circle_theta_start]) - circle_radius;
 
-        var start_speed = Math.random() * (0.8 - 0.2) + 0.2;
+        var start_speed = Math.random() * (0.6 - 0.2) + 0.2;
 
         var go_left = Math.random() < 0.5;
         if (go_left) {
