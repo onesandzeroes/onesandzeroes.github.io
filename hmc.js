@@ -93,16 +93,23 @@ Physics(function( world ){
 
     create_ball = function() {
         var circle_radius = 10;
-        var max_index = Math.floor(3 / 4 * n_intervals)
-        var min_index = Math.floor(1 / 4 * n_intervals)
+        var max_index = Math.floor(3 / 4 * n_intervals);
+        var min_index = Math.floor(1 / 4 * n_intervals);
         var circle_theta_start = Math.floor((Math.random() * max_index + min_index));;
         var circle_x_start = x_scale(thetas[circle_theta_start]);
         var circle_y_start = y_scale(log_probs[circle_theta_start]) - circle_radius;
 
+        var start_speed = Math.random() * (0.8 - 0.2) + 0.2;
+
+        var go_left = Math.random() < 0.5;
+        if (go_left) {
+           start_speed = start_speed * - 1;
+        }
+
         var ball = Physics.body('circle', {
             x: circle_x_start,
             y: circle_y_start,
-            vx: Math.random - 0.5,
+            vx: start_speed,
             restitution: 0,
             radius: circle_radius
         });
