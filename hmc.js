@@ -62,7 +62,7 @@ Physics(function( world ){
         var times = [];
         var ball_positions = [];
         var steps = 0;
-        var max_steps = Math.floor(Math.random() * 500 + 200);
+        var max_steps = Math.floor(Math.random() * (500 - 200) + 200);
         // start the ticker
         Physics.util.ticker.start();
 
