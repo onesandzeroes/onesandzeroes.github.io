@@ -62,7 +62,7 @@ Physics(function( world ){
         var times = [];
         var ball_positions = [];
         var steps = 0;
-        var max_steps = Math.floor(Math.random() * (500 - 200) + 200);
+        var max_steps = Math.floor(Math.random() * (250 - 100) + 100);
         // start the ticker
         Physics.util.ticker.start();
 
@@ -99,7 +99,7 @@ Physics(function( world ){
         var circle_x_start = x_scale(thetas[circle_theta_start]);
         var circle_y_start = y_scale(log_probs[circle_theta_start]) - circle_radius;
 
-        var start_speed = Math.random() * (0.6 - 0.2) + 0.2;
+        var start_speed = Math.random() * (0.6 - 0.3) + 0.3;
 
         var go_left = Math.random() < 0.5;
         if (go_left) {
