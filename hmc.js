@@ -111,6 +111,7 @@ Physics(function( world ){
             y: circle_y_start,
             vx: start_speed,
             restitution: 0,
+            cof: 0,
             radius: circle_radius
         });
         world.add(ball);
