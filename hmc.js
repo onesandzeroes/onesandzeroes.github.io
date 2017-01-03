@@ -1,6 +1,6 @@
 function zip(arrays) {
     return arrays[0].map(function(_,i){
-        return arrays.map(function(array){return array[i]})
+        return arrays.map(function(array){return array[i];});
     });
 }
 
@@ -19,13 +19,13 @@ Physics(function( world ){
     });
     world.add( renderer );
 
-    var n_intervals = 1000;
+    var n_intervals = 2000;
     var interval_width = (0.99 - 0.01) / n_intervals;
     var thetas = [];
     var log_probs = [];
 
     for (index = 0; index < n_intervals; index++) {
-        theta = 0.01 + index * interval_width
+        theta = 0.01 + index * interval_width;
         thetas.push(theta);
         like = (Math.pow(theta, a_param - 1) * Math.pow((1 - theta), b_param - 1));
         neg_log_like = -1 * Math.log(like);
@@ -95,7 +95,7 @@ Physics(function( world ){
         var circle_radius = 10;
         var max_index = Math.floor(3 / 4 * n_intervals);
         var min_index = Math.floor(1 / 4 * n_intervals);
-        var circle_theta_start = Math.floor((Math.random() * max_index + min_index));;
+        var circle_theta_start = Math.floor((Math.random() * max_index + min_index));
         var circle_x_start = x_scale(thetas[circle_theta_start]);
         var circle_y_start = y_scale(log_probs[circle_theta_start]) - circle_radius;
 
@@ -115,7 +115,7 @@ Physics(function( world ){
             radius: circle_radius
         });
         world.add(ball);
-        world.render()
+        world.render();
 
         return ball;
     };
