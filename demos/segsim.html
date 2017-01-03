@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Segregation Simulator</title>
+    <style>
+    rect {
+        stroke: #000000;
+        stroke-width: 0.2px;
+    }
+
+    body {
+        text-align: center;
+        align-content: center;
+        align-items: center;
+        background-color: rgb(71, 71, 71);
+        color: #c9c5c5;
+
+    }
+
+    h1 {
+        font-family: "Palatino", sans-serif;
+        font-size: 13pt;
+    }
+
+    p {
+        text-align: justify;
+        padding-top: 6pt;
+        padding-bottom: 6pt;
+        font-size: 10pt;
+        font-family: "Lucida Sans", sans-serif;
+        margin: auto;
+        max-width: 50%;
+    }
+
+    #main_content {
+        margin: auto;
+        max-width: 1000px;
+        padding-top: 6pt;
+        padding-bottom: 6pt;
+    }
+
+    #chart_div {
+        margin: 0 auto;
+        padding-bottom: 6pt;
+        width 100%;
+        display: flex;
+        justify-content: center; /* for horizontal alignment */
+        align-items: center;     /* for vertical alignment   */
+    }
+
+    #chart_svg {
+        margin: 0 auto;
+        border-style: solid;
+        border-color: #000;
+        border-width: 2px;
+    }
+
+    #control_area {
+        margin: 0 auto;
+        font-family: "Lucida Console", monospace;
+        font-size: 9pt;
+        align-items: center;
+        justify-content: center;
+    }
+
+    td {
+        padding: 5px;
+        font-size: 10pt;
+    }
+    </style>
+</head>
+<body>
+    <section id="main_content">
+        <header>
+            <h1 id="sim_heading">Segregation simulator</h1>
+        </header>
+            <p>A simple agent-based model of racial segregation drawn from Thomas Schelling's work
+                and Allen B. Downey's book "Think Complexity. Blue and red tiles are occupied, and
+                at each step we pick a random occupied tile. We check the 8 "neighbour" cells around
+                the tile, and if the number of neighbours of the same colour is less than a certain
+                threshold, that agent moves to a random unoccupied space. These random moves
+                can produce sharply differentiated areas of the two colours.</p>
+        <div id="chart_div"></div>
+        <div id="control_area" class="wrap">
+            <table align="center">
+            <tr>
+                <td>Number of columns:</td>
+                <td><input type="number" name="width" value="30" id="width_input"/></td>
+            </tr>
+            <tr>
+                <td>Number of rows:</td>
+                <td><input type="number" name="height" value="30" id="height_input"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center">
+                <button type="button" name="start" id="start_button">Start</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center">
+                <button type="button" name="reset" id="reset_button">Reset</button>
+                </td>
+            </tr>
+            </table>
+        </div>
+    </section>
+    <!-- Load JS scripts at end for speed -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="sim.js"></script>
+</body>
+</html>
