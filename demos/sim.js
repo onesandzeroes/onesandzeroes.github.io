@@ -80,8 +80,8 @@ CitySim.prototype.get_neighbours = function(coord) {
     var neighbour_contents = [];
 
     var x_offset, y_offset;
-    for (x_offset in [-1, 0, 1]) {
-        for (y_offset in [-1, 0, 1]) {
+    for (x_offset of [-1, 0, 1]) {
+        for (y_offset of [-1, 0, 1]) {
             if ((x_offset === 0) && (y_offset === 0)) {
                 continue;
             }
