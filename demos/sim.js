@@ -87,7 +87,7 @@ CitySim.prototype.get_neighbours = function(coord) {
             }
 
             neighbour_row = row + y_offset;
-            neighbour_col = row + x_offset;
+            neighbour_col = col + x_offset;
 
             // Ignore out-of-bounds indices
             if (this.cells[neighbour_row] !== undefined) {
