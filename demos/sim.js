@@ -11,105 +11,101 @@ var tile_height = 10;
 
 var sim_running = false;
 
-
-function create_city() {
-    var new_city = [];
+var CitySim = function(width, height) {
+    this.width = width;
+    this.height = height;
+    this.cells = [];
     var row_num, col_num;
-    console.log([city_width, city_height]);
 
-    var total_cells = city_width * city_height;
-    var n_blue = Math.floor(0.45 * total_cells);
-    var n_red = Math.floor(0.45 * total_cells);
+    this.total_cells = city_width * city_height;
+    this.n_blue = Math.floor(0.45 * this.total_cells);
+    this.n_red = Math.floor(0.45 * this.total_cells);
 
-    for (row_num = 0; row_num < city_height; row_num++) {
-        new_city[row_num] = [];
-        for (col_num = 0; col_num < city_width; col_num++) {
-            new_city[row_num][col_num] = '-';
+    for (row_num = 0; row_num < height; row_num++) {
+        this.cells[row_num] = [];
+        for (col_num = 0; col_num < width; col_num++) {
+            this.cells[row_num][col_num] = '-';
         }
     }
-    init_city(new_city, n_blue, n_red);
-    return new_city;
-}
 
+    this.init_cells();
+};
 
-function get_random_index(n_choices) {
-    var index = Math.floor(Math.random() * n_choices);
-    return index;
-}
+CitySim.prototype.init_cells = function() {
+    var blue_num, red_num;
+    for (blue_num = 0; blue_num < this.n_blue; blue_num++) {
+        empty_coords = this.find_empty_tile();
+        this.cells[empty_coords[0]][empty_coords[1]] = 'b';
+    }
+    for (red_num = 0; red_num < this.n_red; red_num++) {
+    empty_coords = this.find_empty_tile();
+        this.cells[empty_coords[0]][empty_coords[1]] = 'r';
+    }
+};
 
-function get_random_coord(height, width) {
+CitySim.prototype.get_random_coord = function() {
     var row, col;
-    row = get_random_index(height);
-    col = get_random_index(width);
+    row = get_random_index(this.height);
+    col = get_random_index(this.width);
     return [row, col];
-}
+};
 
-function find_empty_tile(city) {
+CitySim.prototype.find_empty_tile = function () {
     var found = false;
     var coord;
     while (! found) {
-        coord = get_random_coord(city_height, city_width);
-        if (city[coord[0]][coord[1]] == "-") {
+        coord = this.get_random_coord();
+        if (this.cells[coord[0]][coord[1]] == "-") {
             found = true;
         }
     }
     return coord;
-}
+};
 
-function find_occupied_tile(city) {
+CitySim.prototype.find_occupied_tile = function() {
     var found = false;
     var coord;
     while (! found) {
-        coord = get_random_coord(city_height, city_width);
-        if (city[coord[0]][coord[1]] != "-") {
+        coord = this.get_random_coord();
+        if (this.cells[coord[0]][coord[1]] != "-") {
             found = true;
         }
     }
     return coord;
-}
+};
 
-function init_city(city, n_blue, n_red) {
-    var blue_num;
-    for (blue_num = 0; blue_num < n_blue; blue_num++) {
-        empty_coords = find_empty_tile(city);
-        city[empty_coords[0]][empty_coords[1]] = 'b';
-    }
-    for (red_num = 0; red_num < n_red; red_num++) {
-        empty_coords = find_empty_tile(city);
-        city[empty_coords[0]][empty_coords[1]] = 'r';
-    }
-}
-
-function get_neighbours(city, coord) {
+CitySim.prototype.get_neighbours = function(coord) {
     var row = coord[0];
     var col = coord[1];
-    var offsets = [
-        [-1, -1], [-1, 0], [-1, 1],
-        [0, -1], [0, 1],
-        [1, -1], [1, 0], [1, 1]
-    ];
-
     var neighbour_contents = [];
-    offsets.forEach(function(offset, index) {
-        var neighbour_row, neighbour_col;
-        neighbour_row = row + offset[0];
-        neighbour_col = col + offset[1];
 
-        // Ignore out-of-bounds indices
-        if (city[neighbour_row] !== undefined) {
-            if (city[neighbour_row][neighbour_col] !== undefined) {
-                neighbour_contents.push(city[neighbour_row][neighbour_col]);
+    var x_offset, y_offset;
+    for (x_offset in [-1, 0, 1]) {
+        for (y_offset in [-1, 0, 1]) {
+            if ((x_offset === 0) && (y_offset === 0)) {
+                continue;
+            }
+
+            neighbour_row = row + y_offset;
+            neighbour_col = row + x_offset;
+
+            // Ignore out-of-bounds indices
+            if (this.cells[neighbour_row] !== undefined) {
+                if (this.cells[neighbour_row][neighbour_col] !== undefined) {
+                    neighbour_contents.push(this.cells[neighbour_row][neighbour_col]);
+                }
             }
         }
-    });
+    }
+
     return neighbour_contents;
-}
+};
 
 
-function check_happiness(city, coord) {
+CitySim.prototype.check_happiness = function(coord) {
     // return true if house has enough similar neighbours to be happy
-    var house = city[coord[0]][coord[1]];
-    var neighbours = get_neighbours(city, coord);
+    var house = this.cells[coord[0]][coord[1]];
+    var neighbours = this.get_neighbours(coord);
     var match_count = 0;
     neighbours.forEach(function(neighbour, index) {
         if (neighbour == house) {
@@ -117,11 +113,11 @@ function check_happiness(city, coord) {
         }
     });
     return match_count >= min_neighbours;
-}
+};
 
-function do_iteration(city) {
-    var random_house_coord = find_occupied_tile(city);
-    var is_happy = check_happiness(city, random_house_coord);
+CitySim.prototype.do_sim_step = function() {
+    var random_house_coord = this.find_occupied_tile();
+    var is_happy = this.check_happiness(random_house_coord);
 
     // Animation for happy houses here?
     if (is_happy) {
@@ -129,35 +125,40 @@ function do_iteration(city) {
     } else {
         var current_row = random_house_coord[0];
         var current_col = random_house_coord[1];
-        var current_colour = city[current_row][current_col];
-        var new_house = find_empty_tile(city);
+        var current_colour = this.cells[current_row][current_col];
+        var new_house = this.find_empty_tile();
         var new_row = new_house[0];
         var new_col = new_house[1];
 
-        city[current_row][current_col] = '-';
-        city[new_row][new_col] = current_colour;
+        this.cells[current_row][current_col] = '-';
+        this.cells[new_row][new_col] = current_colour;
     }
+};
+
+function get_random_index(n_choices) {
+    var index = Math.floor(Math.random() * n_choices);
+    return index;
 }
 
 function create_city_view(city) {
     var view_div = d3.selectAll("#chart_div");
     // Ensure we've cleared any existing view
     view_div.selectAll("*").remove();
-    view_div.attr("width", city_width * tile_width)
-        .attr("height", city_height * tile_height);
+    view_div.attr("width", city.width * tile_width)
+        .attr("height", city.height * tile_height);
 
     var svg = view_div
         .append("svg")
-        .attr("width", city_width * tile_width)
-        .attr("height", city_height * tile_height)
+        .attr("width", city.width * tile_width)
+        .attr("height", city.height * tile_height)
         .attr("id", "chart_svg");
 
     svg.append("g")
         .attr("id", "main_area")
-        .attr("width", tile_width * city_width)
-        .attr("height", tile_height * city_height)
+        .attr("width", tile_width * city.width)
+        .attr("height", tile_height * city.height)
         .selectAll("g")
-        .data(city)
+        .data(city.cells)
         .enter()
         .append("g")
         .selectAll("rect")
@@ -183,13 +184,13 @@ function create_city_view(city) {
         });
 }
 
-city_array = create_city();
-create_city_view(city_array);
+city_obj = new CitySim(city_width, city_height);
+create_city_view(city_obj);
 
 var reset_button = d3.select("#reset_button")
     .on("click", function() {
-        city_array = create_city();
-        create_city_view(city_array);
+        city_obj = new CitySim(city_width, city_height);
+        create_city_view(city_obj);
     });
 
 
@@ -197,16 +198,16 @@ var row_editor = d3.select("#width_input")
     .on("change", function() {
         sim_running = false;
         city_width = parseInt(document.getElementById("width_input").value, 10);
-        city_array = create_city();
-        create_city_view(city_array);
+        city_obj = new CitySim(city_width, city_height);
+        create_city_view(city_obj);
     });
 
 var col_editor = d3.select("#height_input")
     .on("change", function() {
         sim_running = false;
         city_height = parseInt(document.getElementById("height_input").value, 10);
-        city_array = create_city();
-        create_city_view(city_array);
+        city_obj = new CitySim(city_width, city_height);
+        create_city_view(city_obj);
     });
 
 var start_button = d3.select("#start_button")
@@ -232,8 +233,9 @@ function run_simulation() {
         if (! sim_running) {
             return true;
         }
-        do_iteration(city_array);
+        city_obj.do_sim_step();
         if ((current_iteration % update_every) === 0) {
+            console.log("Updating view");
             update_city();
         }
     }, update_duration);
@@ -244,10 +246,10 @@ function run_simulation() {
 function update_city() {
     var svg = d3.select("#chart_svg");
     svg.select("#main_area")
-        .attr("width", tile_width * city_width)
-        .attr("height", tile_height * city_height)
+        .attr("width", tile_width * city_obj.width)
+        .attr("height", tile_height * city_obj.height)
         .selectAll("g")
-        .data(city_array)
+        .data(city_obj.cells)
         .selectAll("rect")
         .data(function(d, i, j) { return d; })
         .transition()
