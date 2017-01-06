@@ -11,10 +11,20 @@ var tile_height = 10;
 
 var sim_running = false;
 
+var blue_colour = "#5050ff";
+var red_colour = "#ff5050";
+var empty_colour = "#cccccc";
+var colour_table = {
+    "b": blue_colour,
+    "r": red_colour,
+    "-": empty_colour
+};
+
 var CitySim = function(width, height) {
     this.width = width;
     this.height = height;
     this.cells = [];
+    this.sim_running = false;
     var row_num, col_num;
 
     this.total_cells = city_width * city_height;
@@ -170,17 +180,7 @@ function create_city_view(city) {
         .attr("width", tile_width)
         .attr("height", tile_height)
         .style("fill", function(d) {
-                var fill_colour;
-                if (d == "b") {
-                    fill_colour = d3.rgb(99, 99, 255);
-                }
-                if (d == "r") {
-                    fill_colour = d3.rgb(255, 99, 99);
-                }
-                if (d == "-") {
-                    fill_colour = d3.rgb(220, 220, 220);
-                }
-                return fill_colour;
+                return colour_table[d];
         });
 }
 
@@ -210,18 +210,18 @@ var col_editor = d3.select("#height_input")
         create_city_view(city_obj);
     });
 
+function stop_simulation() {
+    start_button.text("Start");
+    start_button.on("click", run_simulation);
+    city_obj.sim_running = false;
+}
+
 var start_button = d3.select("#start_button")
     .on("click", run_simulation);
 
 function run_simulation() {
-    function stop_simulation() {
-        start_button.text("Start");
-        start_button.on("click", run_simulation);
-        sim_running = false;
-    }
-
     console.log("Starting simulation");
-    sim_running = true;
+    city_obj.sim_running = true;
     var current_iteration = 0;
     var update_every = 50;
     start_button.text("Stop");
@@ -230,7 +230,7 @@ function run_simulation() {
         if (current_iteration > n_iterations) {
             return true;
         }
-        if (! sim_running) {
+        if (! city_obj.sim_running) {
             return true;
         }
         city_obj.do_sim_step();
@@ -255,16 +255,6 @@ function update_city() {
         .transition()
             .duration(500)
             .style("fill", function(d) {
-                var fill_colour;
-                if (d == "b") {
-                    fill_colour = d3.rgb(99, 99, 255);
-                }
-                if (d == "r") {
-                    fill_colour = d3.rgb(255, 99, 99);
-                }
-                if (d == "-") {
-                    fill_colour = d3.rgb(220, 220, 220);
-                }
-                return fill_colour;
+                return colour_table[d];
             });
 }
