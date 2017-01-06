@@ -1,23 +1,31 @@
+/* jshint esversion: 6, strict: global, browser: true, devel: true */
+/* global d3 */
+"use strict";
+// Number of tiles;
 var city_width = 30;
 var city_height = 30;
+// Proportion of each colour, best to leave at least 10% empty;
+var red_prop = 0.45;
+var blue_prop = 0.45;
 
+// Min number of similar coloured neighbours needed to be "happy";
 var min_neighbours = 3;
 
 var n_iterations = 100000;
 var update_duration = 0.01;
+// Number of iterations before redrawing the view;
+var redraw_iterations = 20;
 
 var tile_width = 15;
 var tile_height = 15;
 
 var sim_running = false;
 
-var blue_colour = "#5050ff";
-var red_colour = "#ff5050";
-var empty_colour = "#cccccc";
+// Colours for city tiles;
 var colour_table = {
-    "b": blue_colour,
-    "r": red_colour,
-    "-": empty_colour
+    "b": "#5050ff",
+    "r": "#ff5050",
+    "-": "#cccccc"
 };
 
 var CitySim = function(width, height) {
@@ -28,8 +36,8 @@ var CitySim = function(width, height) {
     var row_num, col_num;
 
     this.total_cells = city_width * city_height;
-    this.n_blue = Math.floor(0.45 * this.total_cells);
-    this.n_red = Math.floor(0.45 * this.total_cells);
+    this.n_blue = Math.floor(blue_prop * this.total_cells);
+    this.n_red = Math.floor(red_prop * this.total_cells);
 
     for (row_num = 0; row_num < height; row_num++) {
         this.cells[row_num] = [];
@@ -42,13 +50,13 @@ var CitySim = function(width, height) {
 };
 
 CitySim.prototype.init_cells = function() {
-    var blue_num, red_num;
+    var blue_num, red_num, empty_coords;
     for (blue_num = 0; blue_num < this.n_blue; blue_num++) {
         empty_coords = this.find_empty_tile();
         this.cells[empty_coords[0]][empty_coords[1]] = 'b';
     }
     for (red_num = 0; red_num < this.n_red; red_num++) {
-    empty_coords = this.find_empty_tile();
+        empty_coords = this.find_empty_tile();
         this.cells[empty_coords[0]][empty_coords[1]] = 'r';
     }
 };
@@ -89,7 +97,7 @@ CitySim.prototype.get_neighbours = function(coord) {
     var col = coord[1];
     var neighbour_contents = [];
 
-    var x_offset, y_offset;
+    var x_offset, y_offset, neighbour_row, neighbour_col;
     for (x_offset of [-1, 0, 1]) {
         for (y_offset of [-1, 0, 1]) {
             if ((x_offset === 0) && (y_offset === 0)) {
@@ -175,6 +183,7 @@ function create_city_view(city) {
         .data(function(d, i, j) { return d; })
         .enter()
         .append("rect")
+        .attr("class", "city_tile")
         .attr("x", function(d, i, j) { return i * tile_width; })
         .attr("y", function(d, i, j) { return j * tile_height; })
         .attr("width", tile_width)
@@ -184,7 +193,7 @@ function create_city_view(city) {
         });
 }
 
-city_obj = new CitySim(city_width, city_height);
+var city_obj = new CitySim(city_width, city_height);
 create_city_view(city_obj);
 
 var reset_button = d3.select("#reset_button")
@@ -223,7 +232,7 @@ function run_simulation() {
     console.log("Starting simulation");
     city_obj.sim_running = true;
     var current_iteration = 0;
-    var update_every = 50;
+    var update_every = redraw_iterations;
     start_button.text("Stop");
     var sim_timer = d3.timer(function(elapsed) {
         current_iteration += 1;
