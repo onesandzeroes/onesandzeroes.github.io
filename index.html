@@ -3,21 +3,43 @@
 <html>
 <head>
     <title>onesandzeroes.github.io</title>
+    <link href="css/default.css" rel="stylesheet">
+    <style>
+        #demo_list {
+            max-width: 60%;
+            text-align: left;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-<header>
-    <h1>onesandzeroes.github.io</h1>
-    <h2>Examples and demos of statistics, math and programming concepts</h2>
-</header>
-<section>
-    <h3>Current demos:</h3>
-    <ul>
-        <li>
-            <strong><a href="demos/segsim.html">SegSim</a></strong>:
-            A simple agent-based model of segregation in cities, inspired
-            by Allen Downey's book <em>Think Complexity</em>
-        </li>
-    </ul>
-</section>
+    <section id="top_bar">
+        <nav id="top_nav">
+            <ul>
+                <li id="home_button">
+                    <a href="index.html" class="top_button">
+                        <img src="icons/home.svg">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+<main>
+    <header>
+        <h1>onesandzeroes.github.io</h1>
+        <h2>Examples and demos of statistics, math and programming concepts</h2>
+    </header>
+    <section>
+        <h3>Current demos:</h3>
+        <ul id="demo_list">
+            <li>
+                <strong><a href="demos/segsim.html">SegSim</a></strong>:
+                A simple agent-based model of segregation in cities, inspired
+                by Allen Downey's book <em>Think Complexity</em>.
+            </li>
+        </ul>
+    </section>
+</main>
 </body>
 </html>

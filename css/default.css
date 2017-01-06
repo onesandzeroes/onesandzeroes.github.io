@@ -2,10 +2,35 @@ body {
     margin: 0px;
     background-color: #505050;
     color: #c5c5c5;
+    font-size: 14pt;
+    font-family: "Lucida Sans", sans-serif;
 }
+
 h1 {
     font-family: "Palatino", sans-serif;
-    font-size: 16pt;
+    font-weight: bold;
+    font-size: 18pt;
+    display: block;
+}
+
+h2 {
+    font-family: "Palatino", sans-serif;
+    font-size: 14pt;
+    text-align: left;
+    padding: 10px 10px;
+    margin: auto;
+    max-width: 60%;
+    display: block;
+}
+
+h3 {
+    max-width: 60%;
+    margin: auto;
+    padding: 5px 5px;
+    text-align: left;
+    font-family: "Georgia", serif;
+    font-weight: bold;
+    font-size: 14pt;
     display: block;
 }
 
@@ -13,8 +38,6 @@ p {
     text-align: justify;
     padding-top: 6pt;
     padding-bottom: 6pt;
-    font-size: 14pt;
-    font-family: "Lucida Sans", sans-serif;
     line-height: 1.2;
     margin: auto;
     max-width: 60%;
@@ -26,6 +49,10 @@ main {
     margin: auto;
     max-width: 1000px;
     text-align: center;
+}
+
+a {
+    color: #40d020;
 }
 
 #top_nav {
@@ -51,12 +78,13 @@ main {
   background-color: #409000;
 }
 #top_nav li a {
-  padding: 10px;
+  padding: 30px 15px;
   color: #e0e0e0;
   text-decoration: none;
   font-family: "Arial", sans-serif;
   font-weight: bold;
   font-size: 14pt;
+  vertical-align: middle;
 }
 
 li#home_button:hover {
