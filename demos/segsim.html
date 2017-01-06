@@ -65,7 +65,7 @@
 
     h1 {
         font-family: "Palatino", sans-serif;
-        font-size: 13pt;
+        font-size: 16pt;
         display: block;
     }
 
@@ -73,10 +73,11 @@
         text-align: justify;
         padding-top: 6pt;
         padding-bottom: 6pt;
-        font-size: 10pt;
+        font-size: 14pt;
         font-family: "Lucida Sans", sans-serif;
+        line-height: 1.2;
         margin: auto;
-        max-width: 50%;
+        max-width: 60%;
     }
 
     main {
@@ -135,7 +136,7 @@
             <h1 id="sim_heading">Segregation simulator</h1>
         </header>
             <p>A simple agent-based model of racial segregation drawn from Thomas Schelling's work
-                and Allen B. Downey's book "Think Complexity. Blue and red tiles are occupied, and
+                and Allen B. Downey's book "Think Complexity". Blue and red tiles are occupied, and
                 at each step we pick a random occupied tile. We check the 8 "neighbour" cells around
                 the tile, and if the number of neighbours of the same colour is less than a certain
                 threshold, that agent moves to a random unoccupied space. These random moves

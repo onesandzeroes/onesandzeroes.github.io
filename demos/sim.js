@@ -6,8 +6,8 @@ var min_neighbours = 3;
 var n_iterations = 100000;
 var update_duration = 0.01;
 
-var tile_width = 10;
-var tile_height = 10;
+var tile_width = 15;
+var tile_height = 15;
 
 var sim_running = false;
 
