@@ -2,16 +2,18 @@ function beta_density(y, alpha, beta) {
     var numerator = Math.pow(y, (alpha - 1)) * Math.pow((1 - y), (beta - 1));
     var denominator = (gamma(alpha) * gamma(beta)) / gamma(alpha + beta);
     return numerator / denominator;
-};
+}
 
 function zip(arrays) {
     return arrays[0].map(function(_,i){
-        return arrays.map(function(array){return array[i]})
+        return arrays.map(function(array) {
+            return array[i];
+        });
     });
 }
 
 function create_graph() {
-        var alpha = parseFloat(document.getElementById("alpha-value").innerHTML);
+    var alpha = parseFloat(document.getElementById("alpha-value").innerHTML);
     var beta = parseFloat(document.getElementById("beta-value").innerHTML);
 
     var densities = [];
@@ -23,13 +25,13 @@ function create_graph() {
 
     var x_scale = d3.scale.linear()
         .domain([0, 1])
-        .range([2 * padding, width - (2 *padding)]);
+        .range([2 * padding, width - (1 *padding)]);
     var x_axis = d3.svg.axis()
         .scale(x_scale)
         .ticks(10);
     var y_scale = d3.scale.linear()
         .domain([0, d3.max(dataset, function(d) {return d[1];})])
-        .range([height - (2 * padding), 2 * padding]);
+        .range([height - (2 * padding), 1 * padding]);
     var y_axis = d3.svg.axis()
         .ticks(10)
         .orient("left")
@@ -147,13 +149,22 @@ var height = 500;
 var padding = 40;
 var y_vals = numeric.linspace(0.01, 0.99, 100);
 
-var svg = d3.select("body")
+var svg = d3.select("#plot_area")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
+
+svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("fill", "white")
+    .attr("stroke", "black")
+    .attr("stroke-width", "1px");
 svg.append("path");
 svg.append("g").attr("class", "x-axis");
 svg.append("g").attr("class", "y-axis");
 
+create_graph();
 
-
+eq_div = document.getElementById("beta-equation");
+katex.render("f(y) = \\left[ \\frac{\\Gamma(\\alpha + \\beta)}{\\Gamma(\\alpha) \\Gamma(\\beta)} \\right] y^{\\alpha - 1} (1 - y)^{\\beta - 1}", eq_div);
