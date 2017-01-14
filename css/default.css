@@ -80,6 +80,7 @@ li {
   height: 100%;
 }
 #top_nav li {
+  padding: 0;
   text-align: center;
   display: inline-block;
   height: 100%;
