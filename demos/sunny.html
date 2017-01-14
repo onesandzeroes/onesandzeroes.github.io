@@ -94,20 +94,27 @@
         <!--- textarea open and close tags must be on same line or a newline gets inserted! --->
         <textarea id="title_input" type="text"
             placeholder="&quot;The Gang Types a New Title&quot;"
-            rows="3" cols="20" onchange="createScreenshot();"
+            rows="3" cols="20"
             onfocus="disableBorder();"></textarea>
     </div>
-    <a download="sunny.png" id="export_button">Export Screenshot</a>
+    <a download="sunny.png" id="export_button" onmouseover="createScreenshot();">Export Screenshot</a>
     <script>
+    var current_text = "";
     function createScreenshot() {
         var card = document.getElementById("title_card");
-        var export_button = document.getElementById("export_button");
-        var canvas = html2canvas(card, {
-            onrendered: function(canvas) {
-                var img_data = canvas.toDataURL('image/png');
-                export_button.href = img_data;
-            }
-        });
+        var title_input = document.getElementById("title_input");
+        // Only create if we need to, i.e. text has changed, for efficiency
+        if (title_input.value != current_text) {
+            console.log("Exporting");
+            var export_button = document.getElementById("export_button");
+            var canvas = html2canvas(card, {
+                onrendered: function(canvas) {
+                    var img_data = canvas.toDataURL('image/png');
+                    export_button.href = img_data;
+                }
+            });
+        }
+        current_text = title_input.value;
     };
 
     function disableBorder() {
